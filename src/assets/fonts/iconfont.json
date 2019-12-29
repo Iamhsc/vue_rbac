@@ -1,0 +1,23 @@
+{
+  "id": "1588251",
+  "name": "a'a",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5524662",
+      "name": "password",
+      "font_class": "password",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "9833949",
+      "name": "member",
+      "font_class": "member",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    }
+  ]
+}
