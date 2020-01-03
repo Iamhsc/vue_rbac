@@ -8,9 +8,11 @@ module.exports = {
     '@vue/standard'
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'space-before-function-paren': 0
+    "indent": ["off", 2],
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'space-before-function-paren': 0,
+    'vue/script-indent': 'warning'
   },
   parserOptions: {
     parser: 'babel-eslint'

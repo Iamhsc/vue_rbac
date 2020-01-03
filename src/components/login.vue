@@ -26,8 +26,8 @@ export default {
   data () {
     return {
       loginForm: {
-        username: 'imhsc',
-        password: 'imhsc888'
+        username: 'admin',
+        password: 'admin'
       },
       loginRules: {
         username: [{
@@ -36,9 +36,9 @@ export default {
           trigger: 'blur'
         },
         {
-          min: 3,
+          min: 2,
           max: 10,
-          message: '长度在 3 到 10 个字符',
+          message: '长度在 2 到 10 个字符',
           trigger: 'blur'
         }
         ],
@@ -48,9 +48,9 @@ export default {
           trigger: 'blur'
         },
         {
-          min: 8,
+          min: 5,
           max: 16,
-          message: '长度在 8 到 16 个字符',
+          message: '长度在 5 到 16 个字符',
           trigger: 'blur'
         }
         ]
@@ -70,7 +70,7 @@ export default {
         // 提交表单拿到响应数据res
         const {
           data: res
-        } = await this.$http.post('user/public/login', this.loginForm)
+        } = await this.$http.post('admin/login', this.loginForm)
         console.log(res)
         if (res.code === 0) return this.$message.error(res.msg)
         // 提示消息

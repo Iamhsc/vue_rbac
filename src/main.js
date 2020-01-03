@@ -8,7 +8,14 @@ import './assets/fonts/iconfont.css'
 import './assets/css/global.css'
 import axios from 'axios'
 // 配置请求根路径
-axios.defaults.baseURL = 'http://local.car.com:8088/api/'
+axios.defaults.baseURL = 'http://local.api.com/admin.php/v1/'
+// axios请求拦截
+axios.interceptors.request.use(config => {
+  // 给headers添加Token验证的Authorization字段
+  config.headers.common['authorization'] = window.sessionStorage.getItem('token')
+  return config
+})
+
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
