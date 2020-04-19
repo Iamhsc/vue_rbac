@@ -21,68 +21,69 @@
 </template>
 
 <script>
-export default {
-  name: 'login',
-  data () {
-    return {
-      loginForm: {
-        username: 'admin',
-        password: 'admin'
+  export default {
+    name: 'login',
+    data() {
+      return {
+        loginForm: {
+          username: 'admin',
+          password: 'admin'
+        },
+        loginRules: {
+          username: [{
+              required: true,
+              message: '请输入用户名或邮箱',
+              trigger: 'blur'
+            },
+            {
+              min: 2,
+              max: 10,
+              message: '长度在 2 到 10 个字符',
+              trigger: 'blur'
+            }
+          ],
+          password: [{
+              required: true,
+              message: '请输入密码',
+              trigger: 'blur'
+            },
+            {
+              min: 5,
+              max: 16,
+              message: '长度在 5 到 16 个字符',
+              trigger: 'blur'
+            }
+          ]
+        }
+      }
+    },
+    methods: {
+      resetLoginRorm() {
+        console.log(this)
+        this.$refs.loginFormRef.resetFields()
       },
-      loginRules: {
-        username: [{
-          required: true,
-          message: '请输入用户名或邮箱',
-          trigger: 'blur'
-        },
-        {
-          min: 2,
-          max: 10,
-          message: '长度在 2 到 10 个字符',
-          trigger: 'blur'
-        }
-        ],
-        password: [{
-          required: true,
-          message: '请输入密码',
-          trigger: 'blur'
-        },
-        {
-          min: 5,
-          max: 16,
-          message: '长度在 5 到 16 个字符',
-          trigger: 'blur'
-        }
-        ]
+      login() {
+        // 验证表单成功后才提交
+        this.$refs.loginFormRef.validate(async valid => {
+          // 验证不成功直接return
+          if (!valid) return
+          // 提交表单拿到响应数据res
+          this.$post('admin/login', this.loginForm).then(
+          res => {
+            if (res.code === 0) return this.$message.error(res.msg)
+            // 提示消息
+            this.$message.success(res.msg)
+            // 登录成功后将token保存到客户端的sessionStorage中
+            window.sessionStorage.setItem('token', res.data.token)
+            // 跳转到后台主页，路由地址是/home
+            this.$router.push('/home')
+          }).catch(err => {
+            console.log(err)
+          })
+        })
       }
     }
-  },
-  methods: {
-    resetLoginRorm () {
-      console.log(this)
-      this.$refs.loginFormRef.resetFields()
-    },
-    login () {
-      // 验证表单成功后才提交
-      this.$refs.loginFormRef.validate(async valid => {
-        // 验证不成功直接return
-        if (!valid) return
-        // 提交表单拿到响应数据res
-        const {
-          data: res
-        } = await this.$http.post('admin/login', this.loginForm)
-        console.log(res)
-        if (res.code === 0) return this.$message.error(res.msg)
-        // 提示消息
-        this.$message.success(res.msg)
-        // 登录成功后将token保存到客户端的sessionStorage中
-        window.sessionStorage.setItem('token', res.data.token)
-        // 跳转到后台主页，路由地址是/home
-        this.$router.push('/home')
-      })
-    }
   }
-}
 </script>
 
 <style lang="less" scoped>

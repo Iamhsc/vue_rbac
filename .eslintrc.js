@@ -8,7 +8,7 @@ module.exports = {
     '@vue/standard'
   ],
   rules: {
-    "indent": ["off", 2],
+    'indent': ['off', 2],
     'no-console': 'off',
     'no-debugger': 'off',
     'space-before-function-paren': 0,

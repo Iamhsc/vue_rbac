@@ -59,33 +59,21 @@ export default {
       window.sessionStorage.clear()
       this.$router.push('/login')
     },
-    async getMenuList() {
+    getMenuList() {
       let menuStr = window.sessionStorage.getItem('managementMenu')
       if (menuStr) {
         this.menuList = JSON.parse(menuStr)
         return
       }
-      await this.$http.get('menu').then(
-        res => {
-          if (res.data.code === 200) {
-            if (res.data.code !== 200) return this.$message.error(res.data.msg)
-            this.menuList = res.data.data
-            window.sessionStorage.setItem('managementMenu', JSON.stringify(res.data.data))
-            console.log('获取数据成功', res.data)
-          } else {
-            console.log('获取数据失败', res.data)
-          }
-        },
-        err => {
-          let data = err.response.data
-          console.log(data)
-          this.$message.error(data.msg)
-          if (data.code === 401) {
-            window.sessionStorage.clear()
-            this.$router.push('/login')
-          }
-        }
-      )
+      this.$get('menu').then(
+      res => {
+        console.log('res', res)
+        if (res.code !== 200) return this.$message.error(res.data.msg)
+        this.menuList = res.data
+        window.sessionStorage.setItem('managementMenu', JSON.stringify(res.data))
+      }).catch(err => {
+        console.log(err)
+      })
     },
     // 菜单折叠
     toggleCollapse() {
