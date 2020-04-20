@@ -8,20 +8,6 @@ import './assets/fonts/iconfont.css'
 import './assets/css/global.css'
 import { fetch, post, put, del } from './common/api'
 import { MessageBox } from 'element-ui'
-// import axios from 'axios'
-// // 配置请求根路径
-// axios.defaults.baseURL = 'http://local.api.com/admin.php/v1/'
-// // axios请求拦截
-// axios.interceptors.request.use(config => {
-//   // 给headers添加Token验证的Authorization字段
-//   config.headers.common['authorization'] = window.sessionStorage.getItem('token')
-//   return config
-// },
-// err => {
-//   return Promise.resolve(err)
-// })
-
-// Vue.prototype.$http = axios
 
 Vue.prototype.$get = fetch
 Vue.prototype.$post = post

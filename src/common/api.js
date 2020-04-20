@@ -26,7 +26,6 @@ api.interceptors.request.use(config => {
 // 响应拦截器
 api.interceptors.response.use(
   response => {
-    console.log('响应拦截', response)
     return response.data
   },
   error => {
@@ -41,7 +40,7 @@ api.interceptors.response.use(
       // 服务器维护
       Message.error(res.msg)
     }
-    console.log('err', error)
+    console.log('err', error.data)
     return Promise.reject(error)
   }
 )
@@ -58,8 +57,8 @@ export function fetch(url, params = {}) {
       .then(response => {
         resolve(response)
       })
-      .catch((e) => {
-        console.log('promise catch err', e)
+      .catch((reject) => {
+        console.log(reject)
       })
   })
 }
@@ -76,7 +75,6 @@ export function post(url, data = {}) {
       .then(response => {
         resolve(response)
       }).catch(reject => {
-        reject(reject)
         console.log(reject)
       })
   })
@@ -94,7 +92,6 @@ export function put(url, data = {}) {
       .then(response => {
         resolve(response)
       }).catch(reject => {
-        reject(reject)
         console.log(reject)
       })
   })
@@ -112,7 +109,6 @@ export function del(url) {
       .then(response => {
         resolve(response)
       }).catch(reject => {
-        reject(reject)
         console.log(reject)
       })
   })

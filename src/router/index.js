@@ -3,7 +3,10 @@ import VueRouter from 'vue-router'
 import login from '../components/login.vue'
 import home from '../components/home.vue'
 import welcome from '../components/welcome.vue'
-import adminList from '../components/admin/list.vue'
+import manage from '../components/admin/manage.vue'
+import role from '../components/admin/role.vue'
+import menu from '../components/sys/menu.vue'
+import newfile from '../components/new_file.vue'
 
 Vue.use(VueRouter)
 
@@ -16,6 +19,10 @@ const routes = [{
     component: login
   },
   {
+    path: '/newfile',
+    component: newfile
+  },
+  {
     path: '/home',
     component: home,
     redirect: 'index',
@@ -25,7 +32,15 @@ const routes = [{
       },
       {
         path: '/admin',
-        component: adminList
+        component: manage
+      },
+      {
+        path: '/role',
+        component: role
+      },
+      {
+        path: '/menu',
+        component: menu
       }
     ]
 }]

@@ -41,34 +41,34 @@
       </el-table>
       <!-- 分页 -->
       <div class="pagination">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum"
+        <el-pagination :hide-on-single-page="total / queryInfo.pagesize < 2" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum"
           :page-sizes="[8, 30, 50, 100]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
       </div>
     </el-card>
     <!-- 添加\编辑管理员对话框 -->
-    <el-dialog :title="DialogTitle" width="500px" ref="dialog" :visible.sync="AddAdminDialogVisible" @close="AddAdminDialogClose">
-      <el-form :model="addAdminForm" :rules="AddAdminFormRules" ref="addAdminFormRef" label-width="100px">
+    <el-dialog :title="dialogTitle" width="500px" ref="dialog" :visible.sync="dialogVisible" @close="dialogClose">
+      <el-form :model="adminInfoRorm" :rules="adminInfoRormRules" ref="adminInfoRormRef" label-width="100px">
         <el-form-item label="登录名称" prop="admin_name">
-          <el-input v-model="addAdminForm.admin_name"></el-input>
+          <el-input v-model="adminInfoRorm.admin_name"></el-input>
         </el-form-item>
         <el-form-item label="登录密码" prop="password">
-          <el-input v-model="addAdminForm.password" type="password"></el-input>
+          <el-input v-model="adminInfoRorm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="addAdminForm.mobile"></el-input>
+          <el-input v-model="adminInfoRorm.mobile"></el-input>
         </el-form-item>
         <el-form-item label="角色" prop="role_id">
-          <el-select v-model="addAdminForm.role_id" :loading="getRoleListLoading" @focus="getRoleList" placeholder="请选择">
+          <el-select v-model="adminInfoRorm.role_id" :loading="getRoleListLoading" @focus="getRoleList" placeholder="请选择">
             <el-option v-for="item in rolelist" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="AddAdminDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addAdmin">确 定</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -135,14 +135,14 @@
           pagesize: 8
         },
         // 添加管理员表单参数
-        addAdminForm: {
+        adminInfoRorm: {
           admin_name: '',
           password: '',
           mobile: '',
           role_id: ''
         },
         // 添加管理员表单验证规则
-        AddAdminFormRules: {
+        adminInfoRormRules: {
           admin_name: formRules.admin_name,
           password: formRules.password,
           mobile: formRules.mobile
@@ -150,10 +150,10 @@
         adminlist: [], // 管理员列表
         rolelist: [], // 角色列表
         total: 0, // 获取数据总条数
-        DialogTitle: '', // dialog标题
+        dialogTitle: '', // dialog标题
         getAdminListLoading: false, // 获取管理员集合加载动画
         getRoleListLoading: false, // 获取角色集合动画
-        AddAdminDialogVisible: false // 添加弹窗是否开启
+        dialogVisible: false // 添加弹窗是否开启
       }
     },
     created() {
@@ -177,18 +177,18 @@
       },
 
       // 添加管理员
-      addAdmin() {
+      submitForm() {
         console.log('ok', this)
         // 验证表单成功后才提交
-        this.$refs.addAdminFormRef.validate(async valid => {
+        this.$refs.adminInfoRormRef.validate(async valid => {
           // 验证不成功直接return
           if (!valid) return
-          this.$post('admin', this.addAdminForm).then(
+          this.$post('admin', this.adminInfoRorm).then(
             res => {
               console.log(res)
               if (res.code === 0) return this.$message.error(res.msg)
               this.$message.success(res.msg)
-              this.AddAdminDialogVisible = false
+              this.dialogVisible = false
               this.getAdminList()
             }).catch(err => {
             console.log(err)
@@ -249,8 +249,8 @@
 
       showDialog(e) {
         if (e === null || e === undefined) {
-          this.DialogTitle = '添加管理员'
-          this.AddAdminFormRules.password = [{
+          this.dialogTitle = '添加管理员'
+          this.adminInfoRormRules.password = [{
               required: true,
               message: '请输入密码',
               trigger: 'blur'
@@ -264,20 +264,20 @@
           ]
         } else {
           if (this.rolelist.length === 0) this.getRoleList()
-          this.DialogTitle = '编辑管理员'
-          this.addAdminForm.admin_name = e.admin_name
-          this.addAdminForm.mobile = e.mobile
-          this.addAdminForm.role_id = e.role_id
-          this.addAdminForm.email = e.email
-          this.addAdminForm.id = e.id
-          this.AddAdminFormRules.password = []
+          this.dialogTitle = '编辑管理员'
+          this.adminInfoRorm.admin_name = e.admin_name
+          this.adminInfoRorm.mobile = e.mobile
+          this.adminInfoRorm.role_id = e.role_id
+          this.adminInfoRorm.email = e.email
+          this.adminInfoRorm.id = e.id
+          this.adminInfoRormRules.password = []
         }
-        this.AddAdminDialogVisible = true
+        this.dialogVisible = true
       },
       // 关闭添加管理员表单事件
-      AddAdminDialogClose() {
-        this.$refs.addAdminFormRef.resetFields()
-        this.addAdminForm = {
+      dialogClose() {
+        this.$refs.adminInfoRormRef.resetFields()
+        this.adminInfoRorm = {
           admin_name: '',
           password: '',
           mobile: '',

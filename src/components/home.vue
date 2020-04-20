@@ -1,5 +1,5 @@
 <template>
-  <el-container class="home-container">
+  <el-container>
     <!-- 头部区域 -->
     <el-header>
       <div>
@@ -21,7 +21,7 @@
               <i class="el-icon-location"></i>
               <span>{{item.title}}</span>
             </template>
-            <el-menu-item :index="'/'+subItem.ctrl" v-for="subItem in item.childs" :key="subItem.id">
+            <el-menu-item :index="'/'+subItem.ctrl" v-for="subItem in item.children" :key="subItem.id">
               <i :class="subItem.icon"></i>
               <span>{{subItem.title}}</span>
             </el-menu-item>
@@ -29,7 +29,7 @@
         </el-menu>
       </el-aside>
       <!-- 右侧主体区 -->
-      <el-container>
+      <el-container :style="'height:'+ windowHeight + 'px;'">
         <!-- 右侧内容 -->
         <el-main>
           <!-- 路由占位符 -->
@@ -43,51 +43,49 @@
 </template>
 
 <script>
-export default {
-  name: 'home',
-  data() {
-    return {
-      menuList: [],
-      isCollapse: false
-    }
-  },
-  created() {
-    this.getMenuList()
-  },
-  methods: {
-    logout() {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-    },
-    getMenuList() {
-      let menuStr = window.sessionStorage.getItem('managementMenu')
-      if (menuStr) {
-        this.menuList = JSON.parse(menuStr)
-        return
+  export default {
+    name: 'home',
+    data() {
+      return {
+        windowHeight: `${document.documentElement.clientHeight}` - 60,
+        menuList: [],
+        isCollapse: false
       }
-      this.$get('menu').then(
-      res => {
-        console.log('res', res)
-        if (res.code !== 200) return this.$message.error(res.data.msg)
-        this.menuList = res.data
-        window.sessionStorage.setItem('managementMenu', JSON.stringify(res.data))
-      }).catch(err => {
-        console.log(err)
-      })
     },
-    // 菜单折叠
-    toggleCollapse() {
-      this.isCollapse = !this.isCollapse
+    created() {
+      this.getMenuList()
+      console.log(this.windowHeight)
+    },
+    methods: {
+      logout() {
+        window.sessionStorage.clear()
+        this.$router.push('/login')
+      },
+      getMenuList() {
+        let menuStr = window.sessionStorage.getItem('managementMenu')
+        if (menuStr) {
+          this.menuList = JSON.parse(menuStr)
+          return
+        }
+        this.$get('auth').then(
+          res => {
+            console.log('res', res)
+            if (res.code !== 200) return this.$message.error(res.data.msg)
+            this.menuList = res.data
+            window.sessionStorage.setItem('managementMenu', JSON.stringify(res.data))
+          }).catch(err => {
+          console.log(err)
+        })
+      },
+      // 菜单折叠
+      toggleCollapse() {
+        this.isCollapse = !this.isCollapse
+      }
     }
   }
-}
 </script>
 
 <style lang="less" scoped>
-  .home-container {
-    height: 100%;
-  }
-
   .el-header {
     background-color: #0077AA;
     display: flex;

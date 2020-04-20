@@ -29,7 +29,9 @@ import {
   Loading,
   Dialog,
   Select,
-  Option
+  Option,
+  Radio,
+  Cascader
 } from 'element-ui'
 
 Vue.use(Button)
@@ -60,4 +62,6 @@ Vue.use(Loading)
 Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Radio)
+Vue.use(Cascader)
 Vue.prototype.$message = Message
