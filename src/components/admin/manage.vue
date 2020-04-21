@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>管理员管理</el-breadcrumb-item>
       <el-breadcrumb-item>管理员列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -10,65 +12,177 @@
       <el-row :gutter="20">
         <!-- gutter:列与列之间间隙 -->
         <el-col :span="8">
-          <el-input placeholder="请输入登录名" v-model="queryInfo.query" clearable @clear="getAdminList">
-            <el-button slot="append" icon="el-icon-search" @click="getAdminList"></el-button>
+          <el-input
+            placeholder="请输入登录名"
+            v-model="queryInfo.query"
+            clearable
+            @clear="getAdminList"
+          >
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="getAdminList"
+            />
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="showDialog(null)">添加用户</el-button>
+          <el-button
+            type="primary"
+            @click="showDialog(null)"
+          >
+            添加用户
+          </el-button>
         </el-col>
       </el-row>
       <!-- 管理员列表 -->
-      <el-table v-loading="getAdminListLoading" :data="adminlist" border stripe>
-        <el-table-column label="#" type="index"></el-table-column>
-        <el-table-column label="登录名" prop="admin_name"></el-table-column>
-        <el-table-column label="昵称" prop="nickname"></el-table-column>
-        <el-table-column label="手机号" prop="mobile"></el-table-column>
-        <el-table-column label="邮箱" prop="email"></el-table-column>
-        <el-table-column label="状态" width="63px">
+      <el-table
+        v-loading="getAdminListLoading"
+        :data="adminlist"
+        border
+        stripe
+      >
+        <el-table-column
+          label="#"
+          type="index"
+        />
+        <el-table-column
+          label="登录名"
+          prop="admin_name"
+        />
+        <el-table-column
+          label="昵称"
+          prop="nickname"
+        />
+        <el-table-column
+          label="手机号"
+          prop="mobile"
+        />
+        <el-table-column
+          label="邮箱"
+          prop="email"
+        />
+        <el-table-column
+          label="状态"
+          width="63px"
+        >
           <template v-slot="{row}">
-            <el-switch @change="adminStatusChanged(row)" :active-value="1" :inactive-value="0" v-model="row.status"></el-switch>
+            <el-switch
+              @change="adminStatusChanged(row)"
+              :active-value="1"
+              :inactive-value="0"
+              v-model="row.status"
+            />
           </template>
         </el-table-column>
-        <el-table-column label="上次登录IP" prop="last_login_ip"></el-table-column>
-        <el-table-column label="上次登录时间" prop="last_login_time"></el-table-column>
-        <el-table-column label="操作" width="120px">
+        <el-table-column
+          label="上次登录IP"
+          prop="last_login_ip"
+        />
+        <el-table-column
+          label="上次登录时间"
+          prop="last_login_time"
+        />
+        <el-table-column
+          label="操作"
+          width="120px"
+        >
           <template v-slot="{row}">
-            <el-button type="primary" @click="showDialog(row)" icon="el-icon-edit" size="mini"></el-button>
-            <el-button type="danger" @click="delAdmin(row.id)" icon="el-icon-delete" size="mini"></el-button>
+            <el-button
+              type="primary"
+              @click="showDialog(row)"
+              icon="el-icon-edit"
+              size="mini"
+            />
+            <el-button
+              type="danger"
+              @click="delAdmin(row.id)"
+              icon="el-icon-delete"
+              size="mini"
+            />
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
       <div class="pagination">
-        <el-pagination :hide-on-single-page="total / queryInfo.pagesize < 2" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum"
-          :page-sizes="[8, 30, 50, 100]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
-        </el-pagination>
+        <el-pagination
+          :hide-on-single-page="total / queryInfo.pagesize < 2"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="queryInfo.pagenum"
+          :page-sizes="[8, 30, 50, 100]"
+          :page-size="queryInfo.pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        />
       </div>
     </el-card>
     <!-- 添加\编辑管理员对话框 -->
-    <el-dialog :title="dialogTitle" width="500px" ref="dialog" :visible.sync="dialogVisible" @close="dialogClose">
-      <el-form :model="adminInfoRorm" :rules="adminInfoRormRules" ref="adminInfoRormRef" label-width="100px">
-        <el-form-item label="登录名称" prop="admin_name">
-          <el-input v-model="adminInfoRorm.admin_name"></el-input>
+    <el-dialog
+      :title="dialogTitle"
+      width="500px"
+      ref="dialog"
+      :visible.sync="dialogVisible"
+      @close="dialogClose"
+    >
+      <el-form
+        :model="adminInfoRorm"
+        :rules="adminInfoRormRules"
+        ref="adminInfoRormRef"
+        label-width="100px"
+      >
+        <el-form-item
+          label="登录名称"
+          prop="admin_name"
+        >
+          <el-input v-model="adminInfoRorm.admin_name" />
         </el-form-item>
-        <el-form-item label="登录密码" prop="password">
-          <el-input v-model="adminInfoRorm.password" type="password"></el-input>
+        <el-form-item
+          label="登录密码"
+          prop="password"
+        >
+          <el-input
+            v-model="adminInfoRorm.password"
+            type="password"
+          />
         </el-form-item>
-        <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="adminInfoRorm.mobile"></el-input>
+        <el-form-item
+          label="手机号"
+          prop="mobile"
+        >
+          <el-input v-model="adminInfoRorm.mobile" />
         </el-form-item>
-        <el-form-item label="角色" prop="role_id">
-          <el-select v-model="adminInfoRorm.role_id" :loading="getRoleListLoading" @focus="getRoleList" placeholder="请选择">
-            <el-option v-for="item in rolelist" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
+        <el-form-item
+          label="角色"
+          prop="role_id"
+        >
+          <el-select
+            v-model="adminInfoRorm.role_id"
+            :loading="getRoleListLoading"
+            @focus="getRoleList"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in rolelist"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
           </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogVisible = false">
+          取 消
+        </el-button>
+        <el-button
+          type="primary"
+          @click="submitForm"
+        >
+          确 定
+        </el-button>
       </div>
     </el-dialog>
   </div>

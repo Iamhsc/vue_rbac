@@ -2,18 +2,45 @@
   <div class="login-container">
     <div class="login-box">
       <div class="avatar-box">
-        <img src="../assets/logo.png" alt="头像" />
+        <img
+          src="../assets/logo.png"
+          alt="头像"
+        >
       </div>
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
+      <el-form
+        ref="loginFormRef"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+      >
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" prefix-icon="iconfont icon-member" placeholder="请输入用户名或邮箱"></el-input>
+          <el-input
+            v-model="loginForm.username"
+            prefix-icon="iconfont icon-member"
+            placeholder="请输入用户名或邮箱"
+          />
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont icon-password" placeholder="请输入密码"></el-input>
+          <el-input
+            v-model="loginForm.password"
+            type="password"
+            prefix-icon="iconfont icon-password"
+            placeholder="请输入密码"
+          />
         </el-form-item>
         <el-form-item class="btns">
-          <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click="resetLoginRorm">重置</el-button>
+          <el-button
+            type="primary"
+            @click="login"
+          >
+            登录
+          </el-button>
+          <el-button
+            type="info"
+            @click="resetLoginRorm"
+          >
+            重置
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -22,7 +49,7 @@
 
 <script>
   export default {
-    name: 'login',
+    name: 'Login',
     data() {
       return {
         loginForm: {

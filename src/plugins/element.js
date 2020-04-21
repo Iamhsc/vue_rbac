@@ -31,7 +31,10 @@ import {
   Select,
   Option,
   Radio,
-  Cascader
+  Cascader,
+	InputNumber,
+	Popover,
+	Tree
 } from 'element-ui'
 
 Vue.use(Button)
@@ -64,4 +67,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Radio)
 Vue.use(Cascader)
+Vue.use(InputNumber)
+Vue.use(Popover)
+Vue.use(Tree)
 Vue.prototype.$message = Message
