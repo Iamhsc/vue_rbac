@@ -1,4 +1,4 @@
-## vue-cli4简单的权限管理
+## 基于vue-cli4+elementUI简单的权限管理
 ## API：https://github.com/Iamhsc/tp_rbac
 
 ## Project setup
