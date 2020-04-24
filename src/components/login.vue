@@ -97,11 +97,13 @@
           // 提交表单拿到响应数据res
           this.$post('admin/login', this.loginForm).then(
           res => {
-            if (res.code === 0) return this.$message.error(res.msg)
+						console.log(res)
+            if (res.code !== 200) return this.$message.error(res.msg)
             // 提示消息
             this.$message.success(res.msg)
             // 登录成功后将token保存到客户端的sessionStorage中
             window.sessionStorage.setItem('token', res.data.token)
+						window.sessionStorage.setItem('adminInfo', JSON.stringify(res.data.info))
             // 跳转到后台主页，路由地址是/home
             this.$router.push('/home')
           }).catch(err => {

@@ -23,7 +23,7 @@
 				</el-col>
 			</el-row>
 			<!-- 角色列表 -->
-			<el-table v-loading="getRoleListLoading" :data="rolelist" border stripe>
+			<el-table v-loading="getRoleListLoading" :data="rolelist" border stripe :row-class-name="rowIndex">
 				<el-table-column label="#" type="index" />
 				<el-table-column label="角色名" prop="name" />
 				<el-table-column label="角色简介" prop="intro" />
@@ -72,13 +72,13 @@
 		</el-dialog>
 		<el-dialog title="权限分配" width="300px" ref="dialog" :visible.sync="assignAuthDialogVisible" @close="resetAssignAuth">
 			<el-form>
-				<el-tree v-loading="loadingAuth" :default-expanded-keys="[1]" :data="authlist" show-checkbox node-key="id" :default-expand-all="false"
+				<el-tree ref="treeRef" v-loading="loadingAuth" :default-expanded-keys="[1]" :data="authlist" show-checkbox node-key="id" :default-expand-all="false"
 				 :default-checked-keys="defaultCheckedKeys" :props="defaultProps">
 				</el-tree>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<!-- <el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="submitForm">确 定</el-button> -->
+				<el-button @click="assignAuthDialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="submitAuth">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>
@@ -134,6 +134,9 @@
 			this.getRoleList()
 		},
 		methods: {
+			method() {
+				return this.roleInfoRorm.id ? this.$put : this.$post
+			},
 			// 提交表单
 			submitForm() {
 				console.log('ok', this)
@@ -141,7 +144,8 @@
 				this.$refs.roleInfoRormRef.validate(async valid => {
 					// 验证不成功直接return
 					if (!valid) return
-					this.$post('role', this.roleInfoRorm).then(
+					let id = this.roleInfoRorm.id ? '/' + this.roleInfoRorm.id : ''
+					this.method()('role' + id, this.roleInfoRorm).then(
 						res => {
 							console.log(res)
 							if (res.code === 0) return this.$message.error(res.msg)
@@ -197,6 +201,7 @@
 
 			showAssignAuthDialog(roleId) {
 				this.loadingAuth = true
+				this.roleId = roleId
 					this.$get('auth/' + roleId).then(
 						res => {
 							this.authlist = res.data
@@ -207,6 +212,24 @@
 						console.log(err)
 					})
 				this.assignAuthDialogVisible = true
+			},
+			
+			submitAuth() {
+				const strKeys = [
+				...this.$refs.treeRef.getCheckedKeys(),
+				...this.$refs.treeRef.getHalfCheckedKeys()
+				]
+				console.log(strKeys)
+				// 验证表单成功后才提交.join(',')
+				this.$put('auth/' + this.roleId, { rids : strKeys }).then(
+					res => {
+						console.log(res)
+						if (res.code !== 200) return this.$message.error(res.msg)
+						this.$message.success(res.msg)
+						this.assignAuthDialogVisible = false
+					}).catch(err => {
+					console.log(err)
+				})
 			},
 
 			getKeys(nodes, arr) {
@@ -258,6 +281,12 @@
 					status: '1'
 				}
 			},
+			
+			// 把数据表每行index 放到row
+			rowIndex({row, rowIndex}) {
+				row.rowIndex = rowIndex
+			},
+			
 			// 监听状态按钮修改事件
 			roleStatusChanged(info) {
 				this.$put('role/' + info.id, {
@@ -266,8 +295,8 @@
 					res => {
 						console.log('更新状态', res)
 						if (res.code !== 200) {
-							info.status = !info.status
-							return this.$message.error('状态更新失败')
+							this.rolelist[info.rowIndex].status= 1 - info.status
+							return this.$message.error(res.msg)
 						}
 						this.$message.success(res.msg)
 					}).catch(err => {

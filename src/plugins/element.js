@@ -34,7 +34,10 @@ import {
   Cascader,
 	InputNumber,
 	Popover,
-	Tree
+	Tree,
+	Dropdown,
+	DropdownMenu,
+	DropdownItem
 } from 'element-ui'
 
 Vue.use(Button)
@@ -70,4 +73,7 @@ Vue.use(Cascader)
 Vue.use(InputNumber)
 Vue.use(Popover)
 Vue.use(Tree)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
 Vue.prototype.$message = Message

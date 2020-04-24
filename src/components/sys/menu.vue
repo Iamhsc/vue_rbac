@@ -36,7 +36,6 @@
 				<el-table-column label="菜单显示" width="100px" align="center">
 					<template v-slot="{row}">
 						{{ row.status == 1 ? '显示' : '隐藏' }}
-						<!-- <el-switch @change="menuStatusChanged(row)" :active-value="1" :inactive-value="0" v-model="row.status" /> -->
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="120px" align="center">
@@ -274,23 +273,6 @@
 						if (res.code !== 200) return this.$message.error(res.data.msg)
 						this.menuList = res.data
 						window.sessionStorage.setItem('managementMenu', JSON.stringify(res.data))
-					}).catch(err => {
-					console.log(err)
-				})
-			},
-
-			// 监听状态按钮修改事件
-			menuStatusChanged(info) {
-				this.$put('menu/' + info.id, {
-					'status': info.status
-				}).then(
-					res => {
-						console.log('更新状态', res)
-						if (res.code !== 200) {
-							info.status = !info.status
-							return this.$message.error('状态更新失败')
-						}
-						this.$message.success(res.msg)
 					}).catch(err => {
 					console.log(err)
 				})
