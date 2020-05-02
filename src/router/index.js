@@ -7,6 +7,8 @@ import manage from '../components/admin/manage.vue'
 import role from '../components/admin/role.vue'
 import menu from '../components/sys/menu.vue'
 import log from '../components/sys/log.vue'
+import user from '../components/client/user.vue'
+import merchant from '../components/client/merchant.vue'
 
 Vue.use(VueRouter)
 
@@ -41,6 +43,14 @@ const routes = [{
       {
         path: '/log',
         component: log
+      },
+      {
+        path: '/user',
+        component: user
+      },
+      {
+        path: '/merchant',
+        component: merchant
       }
     ]
 }]

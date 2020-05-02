@@ -69,7 +69,7 @@
 				this.$get('log').then(
 					res => {
 						console.log(res)
-						this.loglist = res.data.info
+						this.loglist = res.data
 						this.getLogListLoading = false
 					}).catch(err => {
 					console.log(err)

@@ -9,7 +9,7 @@ module.exports = {
 	],
 	rules: {
 		'no-tabs': 'off',
-		'indent': 'off'
+		'indent': 'off',
 		'space-before-function-paren': 0,
 		'vue/script-indent': 'warning'
 	},

@@ -81,22 +81,10 @@
 </template>
 
 <script>
+  let formRule = require('../../common/form_rules.js')
 	export default {
 		data() {
-			// 手机号验证规则
-			let checkMobile = (rule, value, callback) => {
-				if (!(/^1[3456789]\d{9}$/.test(value))) {
-					return callback(new Error('请输入合法的手机号'))
-				}
-				return callback()
-			}
-			// 邮箱验证规则
-			let checkEmail = (rule, value, callback) => {
-				if (!(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/.test(value))) {
-					return callback(new Error('请输入合法的邮箱'))
-				}
-				return callback()
-			}
+
 			// 表单规则
 			var formRules = {
 				admin_name: [{
@@ -117,7 +105,7 @@
 						trigger: 'blur'
 					},
 					{
-						validator: checkMobile,
+						validator: formRule.checkMobile,
 						trigger: 'blur'
 					}
 				],
@@ -127,7 +115,7 @@
 						trigger: 'blur'
 					},
 					{
-						validator: checkEmail,
+						validator: formRule.checkEmail,
 						trigger: 'blur'
 					}
 				]
