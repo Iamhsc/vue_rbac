@@ -2,43 +2,20 @@
   <div class="login-container">
     <div class="login-box">
       <div class="avatar-box">
-        <img
-          src="../assets/logo.png"
-          alt="头像"
-        >
+        <img src="../../../assets/logo.png" alt="头像">
       </div>
-      <el-form
-        ref="loginFormRef"
-        :model="loginForm"
-        :rules="loginRules"
-        class="login-form"
-      >
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
         <el-form-item prop="username">
-          <el-input
-            v-model="loginForm.username"
-            prefix-icon="iconfont icon-member"
-            placeholder="请输入用户名或邮箱"
-          />
+          <el-input v-model="loginForm.username" prefix-icon="iconfont icon-member" placeholder="请输入用户名或邮箱" />
         </el-form-item>
         <el-form-item prop="password">
-          <el-input
-            v-model="loginForm.password"
-            type="password"
-            prefix-icon="iconfont icon-password"
-            placeholder="请输入密码"
-          />
+          <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont icon-password" placeholder="请输入密码" />
         </el-form-item>
         <el-form-item class="btns">
-          <el-button
-            type="primary"
-            @click="login"
-          >
+          <el-button type="primary" @click="login">
             登录
           </el-button>
-          <el-button
-            type="info"
-            @click="resetLoginRorm"
-          >
+          <el-button type="info" @click="resetLoginRorm">
             重置
           </el-button>
         </el-form-item>
@@ -95,18 +72,18 @@
           // 验证不成功直接return
           if (!valid) return
           // 提交表单拿到响应数据res
-          this.$post('admin/login', this.loginForm).then(
-          res => {
-						console.log(res)
-            if (res.code !== 200) return this.$message.error(res.msg)
-            // 提示消息
-            this.$message.success(res.msg)
-            // 登录成功后将token保存到客户端的sessionStorage中
-            window.sessionStorage.setItem('token', res.data.token)
-						window.sessionStorage.setItem('adminInfo', JSON.stringify(res.data.info))
-            // 跳转到后台主页，路由地址是/home
-            this.$router.push('/home')
-          }).catch(err => {
+          this.$post('/admin/v1/admin/login', this.loginForm).then(
+            res => {
+              console.log('登录结果', res)
+              if (res.code !== 200) return this.$message.error(res.msg)
+              // 提示消息
+              this.$message.success(res.msg)
+              // 登录成功后将token保存到客户端的sessionStorage中
+              window.sessionStorage.setItem('token', res.data.token)
+              window.sessionStorage.setItem('adminInfo', JSON.stringify(res.data.info))
+              // 跳转到后台主页，路由地址是/home
+              this.$router.push('/home')
+            }).catch(err => {
             console.log(err)
           })
         })

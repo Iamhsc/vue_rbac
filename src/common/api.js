@@ -1,49 +1,12 @@
 import axios from 'axios'
-import router from '@/router'
-import {
-  baseUrl
-} from '../../config/env'
-import {
-  Message
-} from 'element-ui'
 
 // 创建axios实例
-const api = axios.create({
-  baseURL: baseUrl, // api的base_url
-  timeout: 15000 // 请求超时时间
+export const api = axios.create({
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8'
+  },
+  withCredentials: true // 表示跨域请求时是否需要使用凭证
 })
-
-// 请求拦截
-api.interceptors.request.use(config => {
-    // 给headers添加Token验证的Authorization字段
-    config.headers.common['authorization'] = window.sessionStorage.getItem('token')
-    return config
-  },
-  err => {
-    return Promise.resolve(err)
-  })
-
-// 响应拦截器
-api.interceptors.response.use(
-  response => {
-    return response.data
-  },
-  error => {
-    console.log('响应拦截错误', error.response)
-    const res = error.response
-    if (res.status === 401) {
-      Message.error('登录已失效')
-      window.sessionStorage.clear()
-      router.push('/login')
-    }
-    if (res.status === 500) {
-      // 服务器维护
-      Message.error(res.msg)
-    }
-    console.log('err', error.data)
-    return Promise.reject(error)
-  }
-)
 
 /**
  * 封装get方法

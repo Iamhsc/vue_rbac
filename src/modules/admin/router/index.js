@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../components/login.vue'
-import home from '../components/home.vue'
-import index from '../components/index.vue'
-import manage from '../components/admin/manage.vue'
-import role from '../components/admin/role.vue'
-import menu from '../components/sys/menu.vue'
-import log from '../components/sys/log.vue'
-import user from '../components/client/user.vue'
-import merchant from '../components/client/merchant.vue'
+import login from '../views/login.vue'
+import home from '../views/home.vue'
+import index from '../views/index.vue'
+import manage from '../views/admin/manage.vue'
+import role from '../views/admin/role.vue'
+import menu from '../views/sys/menu.vue'
+import log from '../views/sys/log.vue'
+import user from '../views/client/user.vue'
+import merchant from '../views/client/merchant.vue'
 
 Vue.use(VueRouter)
 

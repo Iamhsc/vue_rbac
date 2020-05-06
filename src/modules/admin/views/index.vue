@@ -1,7 +1,10 @@
 <template>
-	<el-card>
-		<div id="main" :style="{width: '500px', height: '300px'}"></div>
-	</el-card>
+  <el-card>
+    <div
+      id="main"
+      :style="{width: '500px', height: '300px'}"
+    />
+  </el-card>
 </template>
 
 <script>
@@ -28,7 +31,7 @@
 					},
 					tooltip: {},
 					xAxis: {
-						data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+						data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
 					},
 					yAxis: {},
 					series: [{

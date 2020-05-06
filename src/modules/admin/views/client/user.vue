@@ -34,7 +34,7 @@
           </template>
         </el-table-column>
         <el-table-column label="创建时间" prop="create_time" />
-        <el-table-column label="操作" width="120px">
+        <el-table-column label="操作"  width="130px" align="center">
           <template v-slot="{row}">
             <el-button type="primary" @click="showDialog(row)" icon="el-icon-edit" size="mini" />
             <el-button type="danger" @click="delUser(row.id)" icon="el-icon-delete" size="mini" />
@@ -59,15 +59,19 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="dialogVisible = false">
+          取 消
+        </el-button>
+        <el-button type="primary" @click="submitForm">
+          确 定
+        </el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  let formRule = require('../../common/form_rules.js')
+  let formRule = require('../../../../common/form_rules.js')
   export default {
     data() {
       return {
@@ -109,7 +113,7 @@
       // 获取用户列表
       getUserList() {
         this.getUserListLoading = true
-        this.$get('user', {
+        this.$get('/admin/v1/user', {
           params: this.queryInfo
         }).then(
           res => {
@@ -133,7 +137,7 @@
           // 验证不成功直接return
           if (!valid) return
           let id = this.userInfoForm.id ? '/' + this.userInfoForm.id : ''
-          this.method()('user' + id, this.userInfoForm).then(
+          this.method()('/admin/v1/user' + id, this.userInfoForm).then(
             res => {
               console.log(res)
               if (res.code === 0) return this.$message.error(res.msg)
@@ -154,7 +158,7 @@
           type: 'warning'
         }).then(() => {
           console.log('ssss')
-          this.$del('user/' + id).then(
+          this.$del('/admin/v1/user/' + id).then(
             res => {
               console.log(res)
               if (res.code === 0) return this.$message.error(res.msg)
@@ -217,12 +221,15 @@
       },
 
       // 把数据表每行index 放到row
-      rowIndex({ row, rowIndex }) {
+      rowIndex({
+        row,
+        rowIndex
+      }) {
         row.rowIndex = rowIndex
       },
       // 监听状态按钮修改事件
       userStatusChanged(info) {
-        this.$put('user/' + info.id, {
+        this.$put('/admin/v1/user/' + info.id, {
           'user_status': info.user_status
         }).then(
           res => {
