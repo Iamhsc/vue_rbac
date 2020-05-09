@@ -1,8 +1,9 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <div class="avatar-box">
-        <img src="../../../assets/logo.png" alt="头像">
+     <div class="avatar-box">
+       <span>LOGIN</span>
+        <!-- <img src="../../../assets/logo.png" alt="头像"> -->
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
         <el-form-item prop="username">
@@ -30,8 +31,8 @@
     data() {
       return {
         loginForm: {
-          username: 'admin',
-          password: 'admin'
+          username: 'libai',
+          password: '123456'
         },
         loginRules: {
           username: [{
@@ -85,7 +86,9 @@
               window.sessionStorage.setItem('userToken', res.data.token)
               window.sessionStorage.setItem('userInfo', JSON.stringify(res.data.info))
               // 跳转到后台主页，路由地址是/home
-              this.$router.push('/home')
+							this.$router.replace({ path: '/home' }).catch(err => {
+							   console.log('all good')
+							}) 
             }).catch(err => {
             console.log(err)
           })
@@ -98,7 +101,6 @@
 <style lang="less" scoped>
   .login-container {
     height: 100%;
-    background-color: #2b4b6b;
   }
 
   .login-box {
@@ -107,28 +109,18 @@
     background-color: #fff;
     border-radius: 3px;
     position: absolute;
+    box-shadow: 0 0 10px #ADADAD;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
 
     .avatar-box {
-      height: 130px;
-      width: 130px;
-      border: 1px solid #111;
-      border-radius: 50%;
       padding: 5px;
-      box-shadow: 0 0 10px #ddd;
       position: absolute;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background-color: #eee;
-      }
+      transform: translate(-50%, 50%);
+      font-size: 23px;
+      font-weight: bold;
     }
 
     .btns {

@@ -8,7 +8,7 @@ const path = require('path')
  * 系统所有模块, 也就是 src/modules 文件夹下的模块项目名
  * 每添加一个模块在此处添加一个模块名
  */
-let sysModuleArr = ['index', 'admin']
+let sysModuleArr = ['index', 'merchant', 'admin']
 
 /**
  * 开发时的启动模块, 来自sysModuleArr中的部分模块或全部模块
@@ -22,6 +22,7 @@ let devModules = sysModuleArr
  */
 let buildModules = [
   'index',
+  'merchant',
   'admin'
 ]
 
@@ -41,8 +42,18 @@ module.exports = {
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-        '^/index': '/' // 重写接口
-      }
+          '^/index': '/' // 重写接口
+        }
+      },
+      '/merchant': {
+        target: 'http://local.printing.com',
+        changeOrigin: true,
+        secure: false
+      },
+      '/upload': {
+        target: 'http://local.printing.com',
+        changeOrigin: true,
+        secure: false
       }
     },
 
@@ -53,7 +64,7 @@ module.exports = {
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
     host: 'localhost',
-    port: 8008, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8888, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: false,

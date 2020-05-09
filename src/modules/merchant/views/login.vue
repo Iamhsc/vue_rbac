@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <div class="avatar-box">
-        <img src="../../../assets/logo.png" alt="头像">
+     <div class="avatar-box">
+       <span>Merchant Login</span>
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
         <el-form-item prop="username">
@@ -30,8 +30,8 @@
     data() {
       return {
         loginForm: {
-          username: 'admin',
-          password: 'admin'
+          username: 'ukong',
+          password: '123456'
         },
         loginRules: {
           username: [{
@@ -72,19 +72,20 @@
           // 验证不成功直接return
           if (!valid) return
           // 提交表单拿到响应数据res
-          this.$post('/admin/v1/admin/login', this.loginForm).then(
+          this.$post('/merchant/login', this.loginForm).then(
             res => {
-              console.log('登录结果', res)
+              console.log(res)
               if (res.code !== 200) return this.$message.error(res.msg)
               // 提示消息
               this.$message.success(res.msg)
               // 登录成功后将token保存到客户端的sessionStorage中
-              window.sessionStorage.setItem('token', res.data.token)
-              window.sessionStorage.setItem('adminInfo', JSON.stringify(res.data.info))
-              // 跳转到后台主页，路由地址是/home
+              window.sessionStorage.setItem('merchantToken', res.data.token)
+              window.sessionStorage.setItem('merchantInfo', JSON.stringify(res.data.info))
+              // 跳转到商家后台主页，路由地址是/home
 							this.$router.replace({ path: '/home' }).catch(err => {
-							   console.log('all good')
-							}) 
+							   console.log('all good',err)
+							})
+              // this.$router.push('/home')
             }).catch(err => {
             console.log(err)
           })
@@ -97,7 +98,6 @@
 <style lang="less" scoped>
   .login-container {
     height: 100%;
-    background-color: #2b4b6b;
   }
 
   .login-box {
@@ -106,28 +106,18 @@
     background-color: #fff;
     border-radius: 3px;
     position: absolute;
+    box-shadow: 0 0 10px #ADADAD;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
 
     .avatar-box {
-      height: 130px;
-      width: 130px;
-      border: 1px solid #111;
-      border-radius: 50%;
       padding: 5px;
-      box-shadow: 0 0 10px #ddd;
       position: absolute;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background-color: #eee;
-      }
+      transform: translate(-50%, 50%);
+      font-size: 23px;
+      font-weight: bold;
     }
 
     .btns {

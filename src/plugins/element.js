@@ -37,7 +37,8 @@ import {
 	Tree,
 	Dropdown,
 	DropdownMenu,
-	DropdownItem
+	DropdownItem,
+  Upload
 } from 'element-ui'
 
 Vue.use(Button)
@@ -76,4 +77,5 @@ Vue.use(Tree)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(Upload)
 Vue.prototype.$message = Message

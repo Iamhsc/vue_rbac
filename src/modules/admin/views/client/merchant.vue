@@ -35,6 +35,14 @@
             <el-switch @change="merchantStatusChanged(row)" :active-value="1" :inactive-value="0" v-model="row.m_status" />
           </template>
         </el-table-column>
+				<el-table-column label="是否审核" width="100px" align="center">
+				  <template v-slot="{row}">
+						<label style="color: #419641;" v-if="row.is_audit == 1">已审核</label>
+						<label style="color: #555555;" v-if="row.is_audit == 0">未审核</label>
+            <el-button v-if="row.is_audit == 0" @click="audit(row)" size="mini">审核</el-button>
+
+				  </template>
+				</el-table-column>
         <el-table-column label="操作"  width="130px" align="center">
           <template v-slot="{row}">
             <el-button type="primary" @click="showDialog(row)" icon="el-icon-edit" size="mini" />
@@ -247,6 +255,20 @@
               this.merchantList[info.rowIndex].m_status = 1 - info.m_status
               return this.$message.error(res.msg)
             }
+            this.$message.success(res.msg)
+          }).catch(err => {
+          console.log(err)
+        })
+      },
+      audit(info){
+        this.$put('/admin/v1/merchant/' + info.id, {
+          'is_audit': 1
+        }).then(
+          res => {
+            if (res.code !== 200) {
+              return this.$message.error(res.msg)
+            }
+            this.merchantList[info.rowIndex].is_audit = 1
             this.$message.success(res.msg)
           }).catch(err => {
           console.log(err)

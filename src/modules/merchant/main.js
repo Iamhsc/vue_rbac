@@ -23,7 +23,7 @@ import '../../assets/css/global.css'
 // 请求拦截
 api.interceptors.request.use(config => {
     // 给headers添加Token验证的Authorization字段
-    config.headers.common['authorization'] = window.sessionStorage.getItem('userToken')
+    config.headers.common['authorization'] = window.sessionStorage.getItem('merchantToken')
     return config
   },
   err => {
@@ -57,7 +57,7 @@ Vue.prototype.$get = fetch
 Vue.prototype.$post = post
 Vue.prototype.$put = put
 Vue.prototype.$del = del
-Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$confirm = MessageBox
 Vue.config.productionTip = false
 new Vue({
   router,

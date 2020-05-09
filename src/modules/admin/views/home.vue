@@ -117,7 +117,6 @@
             this.$message.success(res.msg)
             window.sessionStorage.setItem('adminInfo', JSON.stringify(this.adminInfo))
             this.dialogVisible = false
-            this.getAdminList()
           }).catch(err => {
           console.log(err)
         })
@@ -125,7 +124,9 @@
 
       logout() {
         window.sessionStorage.clear()
-        this.$router.push('/login')
+				this.$router.replace({ path: '/login' }).catch(err => {
+				   console.log('all good')
+				}) 
       },
       getMenuList() {
         let menuStr = window.sessionStorage.getItem('managementMenu')
