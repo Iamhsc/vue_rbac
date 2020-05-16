@@ -22,7 +22,7 @@
       <el-dialog title="个人信息修改" width="500px" ref="dialog" :visible.sync="dialogVisible">
         <el-form :model="merchantInfo" ref="merchantInfoRef" label-width="100px">
           <el-form-item label="登录名称" prop="username">
-            <el-input v-model="merchantInfo.username" readonly />
+            <el-input :readonly="this.merchantName ? true:false" v-model="merchantInfo.username"/>
           </el-form-item>
           <el-form-item label="登录密码" prop="password">
             <el-input v-model="merchantInfo.password" type="password" placeholder="为空则不修改" />
@@ -91,7 +91,10 @@
     },
     created() {
       let merchantInfo = window.sessionStorage.getItem('merchantInfo')
-      this.merchantInfo = JSON.parse(merchantInfo)
+      let info = JSON.parse(merchantInfo)
+      console.log(info)
+      this.merchantInfo = info
+      this.merchantName = info.username
     },
     methods: {
       //初始化地图
@@ -122,14 +125,13 @@
       //   this.mapDialogVisible = true
       // },
       submitForm() {
-        this.$put('/merchant/my/' + this.merchantInfo.uid, this.merchantInfo).then(
+        this.$put('/merchant/my', this.merchantInfo).then(
           res => {
             console.log(res)
             if (res.code === 0) return this.$message.error(res.msg)
             this.$message.success(res.msg)
             window.sessionStorage.setItem('merchantInfo', JSON.stringify(this.merchantInfo))
             this.dialogVisible = false
-            this.getAdminList()
           }).catch(err => {
           console.log(err)
         })

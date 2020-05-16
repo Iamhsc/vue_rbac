@@ -40,10 +40,7 @@ module.exports = {
       '/index': {
         target: 'http://local.printing.com',
         changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          '^/index': '/' // 重写接口
-        }
+        secure: false
       },
       '/merchant': {
         target: 'http://local.printing.com',

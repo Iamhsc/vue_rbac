@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-box">
      <div class="avatar-box">
-       <span>LOGIN</span>
+       <span>百云印会员登录</span>
         <!-- <img src="../../../assets/logo.png" alt="头像"> -->
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
